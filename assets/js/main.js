@@ -225,6 +225,8 @@
     var dragStartTime = 0;
     var scrollStartX = 0;
     var lastVelocity = 0;
+    var animationFrameId = null;
+    var SCROLL_SPEED = 60; // pixels per frame
 
     function getSlideScrollAmount() {
       var slide = carouselTrack.querySelector(".client-slide");
@@ -233,7 +235,7 @@
       return slideWidth + gap;
     }
 
-    function scrollCarousel(direction) {
+    function scrollCarouselManual(direction) {
       var slideAmount = getSlideScrollAmount();
       var scrollWidth = carouselTrack.scrollWidth;
       var clientWidth = carouselTrack.clientWidth;
@@ -251,16 +253,44 @@
       }
       // Normal scroll
       else {
-        carouselTrack.scrollBy({ left: direction * slideAmount, behavior: "smooth" });
+        carouselTrack.scrollBy({
+          left: direction * slideAmount,
+          behavior: "smooth",
+        });
       }
     }
 
+    // Continuous autoplay loop (marquee style)
+    function autoScroll() {
+      if (!isDragging) {
+        var scrollWidth = carouselTrack.scrollWidth;
+        var clientWidth = carouselTrack.clientWidth;
+        
+        // Only scroll if there's content to scroll
+        if (scrollWidth > clientWidth) {
+          // Scroll forward smoothly
+          carouselTrack.scrollLeft += SCROLL_SPEED;
+          
+          // Loop back to start when reaching end (seamless loop)
+          if (carouselTrack.scrollLeft + clientWidth >= scrollWidth - 5) {
+            carouselTrack.scrollLeft = 0;
+          }
+        }
+      }
+      animationFrameId = requestAnimationFrame(autoScroll);
+    }
+
+    function startAutoplay() {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(autoScroll);
+    }
+
     prevButton.addEventListener("click", function () {
-      scrollCarousel(-1);
+      scrollCarouselManual(1);
     });
 
     nextButton.addEventListener("click", function () {
-      scrollCarousel(1);
+      scrollCarouselManual(-1);
     });
 
     carouselTrack.addEventListener("pointerdown", function (event) {
@@ -306,5 +336,8 @@
     carouselTrack.addEventListener("pointerup", endDrag);
     carouselTrack.addEventListener("pointercancel", endDrag);
     carouselTrack.addEventListener("pointerleave", endDrag);
+
+    // Start autoplay on init
+    startAutoplay();
   }
 })();
