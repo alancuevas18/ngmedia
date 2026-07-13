@@ -222,8 +222,11 @@
   if (carouselTrack && prevButton && nextButton) {
     var isDragging = false;
     var dragStartX = 0;
+    var dragStartTime = 0;
     var scrollStartX = 0;
-    var dragThreshold = 10;
+    var lastVelocity = 0;
+    var autoplayInterval = null;
+    var AUTOPLAY_DELAY = 4000; // 4 seconds
 
     function getSlideScrollAmount() {
       var slide = carouselTrack.querySelector(".client-slide");
@@ -237,7 +240,45 @@
         left: direction * getSlideScrollAmount(),
         behavior: "smooth",
       });
+      resetAutoplay();
     }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayInterval = setInterval(function () {
+        if (!isDragging && !isMouseOver) {
+          carouselTrack.scrollBy({
+            left: getSlideScrollAmount(),
+            behavior: "smooth",
+          });
+          // loop back to start if at end
+          if (carouselTrack.scrollLeft + carouselTrack.clientWidth >= carouselTrack.scrollWidth - 10) {
+            setTimeout(function () {
+              carouselTrack.scrollTo({ left: 0, behavior: "auto" });
+            }, 600);
+          }
+        }
+      }, AUTOPLAY_DELAY);
+    }
+
+    function stopAutoplay() {
+      if (autoplayInterval) clearInterval(autoplayInterval);
+    }
+
+    function resetAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    var isMouseOver = false;
+    carouselTrack.addEventListener("mouseenter", function () {
+      isMouseOver = true;
+      stopAutoplay();
+    });
+    carouselTrack.addEventListener("mouseleave", function () {
+      isMouseOver = false;
+      startAutoplay();
+    });
 
     prevButton.addEventListener("click", function () {
       scrollCarousel(-1);
@@ -251,7 +292,9 @@
       if (event.button !== 0) return;
       isDragging = true;
       dragStartX = event.clientX;
+      dragStartTime = Date.now();
       scrollStartX = carouselTrack.scrollLeft;
+      lastVelocity = 0;
       carouselTrack.classList.add("is-dragging");
       carouselTrack.setPointerCapture(event.pointerId);
       event.preventDefault();
@@ -262,6 +305,10 @@
       event.preventDefault();
       var deltaX = event.clientX - dragStartX;
       carouselTrack.scrollLeft = scrollStartX - deltaX;
+      // calculate velocity for momentum
+      var now = Date.now();
+      var elapsed = Math.max(now - dragStartTime, 1);
+      lastVelocity = deltaX / elapsed;
     });
 
     function endDrag(event) {
@@ -271,10 +318,22 @@
       if (event.pointerId != null) {
         carouselTrack.releasePointerCapture(event.pointerId);
       }
+      // apply momentum
+      if (Math.abs(lastVelocity) > 0.2) {
+        var momentum = lastVelocity * 800; // pixels to scroll
+        carouselTrack.scrollBy({
+          left: -momentum,
+          behavior: "smooth",
+        });
+      }
+      resetAutoplay();
     }
 
     carouselTrack.addEventListener("pointerup", endDrag);
     carouselTrack.addEventListener("pointercancel", endDrag);
     carouselTrack.addEventListener("pointerleave", endDrag);
+
+    // Start autoplay on init
+    startAutoplay();
   }
 })();

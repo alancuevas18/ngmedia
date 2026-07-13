@@ -125,7 +125,12 @@ require __DIR__ . '/includes/header.php';
             <?php foreach ($portfolioItems as $item): ?>
                 <article class="portfolio-card reveal" data-category="<?= e($item['category']) ?>">
                     <div class="portfolio-media">
-                        <img src="<?= e($item['image_path']) ?>" alt="<?= e($item['title']) ?>" loading="lazy">
+                        <img 
+                            src="<?= e($item['image_path']) ?>" 
+                            srcset="<?= e($item['image_path']) ?>?w=600 600w, <?= e($item['image_path']) ?>?w=900 900w, <?= e($item['image_path']) ?>?w=1200 1200w"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            alt="<?= e($item['title']) ?>" 
+                            loading="lazy">
                     </div>
                     <div class="portfolio-card-body">
                         <span class="portfolio-pill"><?= e($item['category']) ?></span>
