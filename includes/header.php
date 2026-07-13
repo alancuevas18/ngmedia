@@ -1,12 +1,12 @@
 <?php
 
 /** @var PDO $pdo */
-$metaTitle = fetch_content($pdo, 'meta_title', 'NG Media');
-$metaDescription = fetch_content($pdo, 'meta_description', 'Agencia de publicidad, mercadeo, relaciones públicas y marketing político en República Dominicana.');
-$siteTitle = $metaTitle ?: 'NG Media';
-$siteDescription = $metaDescription ?: 'Agencia de publicidad, mercadeo, relaciones públicas y marketing político en República Dominicana.';
-$canonicalUrl = 'https://ngmedia.do/';
-$ogImageUrl = 'https://ngmedia.do/assets/img/logo-transparent.png';
+$pageTitle = $pageTitle ?? fetch_content($pdo, 'meta_title', 'NG Media');
+$pageDescription = $pageDescription ?? fetch_content($pdo, 'meta_description', 'Agencia de publicidad, mercadeo, relaciones públicas y marketing político en República Dominicana.');
+$siteTitle = $pageTitle ?: 'NG Media';
+$siteDescription = $pageDescription ?: 'Agencia de publicidad, mercadeo, relaciones públicas y marketing político en República Dominicana.';
+$canonicalUrl = $canonicalUrl ?? 'https://ngmedia.do/';
+$ogImageUrl = $ogImageUrl ?? 'https://ngmedia.do/assets/img/logo-transparent.png';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,6 +18,8 @@ $ogImageUrl = 'https://ngmedia.do/assets/img/logo-transparent.png';
     <meta name="description" content="<?= e($siteDescription) ?>">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <meta name="theme-color" content="#0A2540">
+    <?php if ($googleSiteVerification !== ''): ?><meta name="google-site-verification" content="<?= e($googleSiteVerification) ?>">
+    <?php endif; ?>
     <link rel="canonical" href="<?= e($canonicalUrl) ?>">
     <meta property="og:type" content="website">
     <meta property="og:title" content="<?= e($siteTitle) ?>">
@@ -35,37 +37,42 @@ $ogImageUrl = 'https://ngmedia.do/assets/img/logo-transparent.png';
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "NG Media",
-        "url": "https://ngmedia.do/",
-        "logo": "https://ngmedia.do/assets/img/logo-transparent.png",
-        "description": "Agencia de publicidad, mercadeo, relaciones públicas y marketing político en República Dominicana.",
-        "areaServed": {
-            "@type": "Country",
-            "name": "República Dominicana"
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "NG Media",
+            "url": "https://ngmedia.do/",
+            "logo": "https://ngmedia.do/assets/img/logo-transparent.png",
+            "description": "Agencia de publicidad, mercadeo, relaciones públicas y marketing político en República Dominicana.",
+            "areaServed": {
+                "@type": "Country",
+                "name": "República Dominicana"
+            }
         }
-    }
     </script>
+    <?php if ($additionalSchema): ?>
+    <script type="application/ld+json">
+        <?= $additionalSchema ?>
+    </script>
+    <?php endif; ?>
 </head>
 
 <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>
     <header class="site-header" id="site-header">
         <div class="container header-inner">
-            <a href="#inicio" class="brand">
+            <a href="index.php" class="brand">
                 <img src="assets/img/logo-transparent.png" alt="NG Media" class="brand-logo">
             </a>
             <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
-                <a href="#inicio">Inicio</a>
-                <a href="#servicios">Servicios</a>
-                <a href="#nosotros">Nosotros</a>
-                <a href="#portafolio">Portafolio</a>
-                <a href="#clientes">Clientes</a>
-                <a href="#contacto">Contacto</a>
+                <a href="index.php#inicio">Inicio</a>
+                <a href="servicios.php">Servicios</a>
+                <a href="index.php#nosotros">Nosotros</a>
+                <a href="index.php#portafolio">Portafolio</a>
+                <a href="index.php#clientes">Clientes</a>
+                <a href="index.php#contacto">Contacto</a>
             </nav>
-            <a href="#contacto" class="btn btn-accent nav-cta">Solicitar Cotización</a>
+            <a href="index.php#contacto" class="btn btn-accent nav-cta">Solicitar Cotización</a>
             <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
                 <span></span><span></span><span></span>
             </button>

@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# Rutas SEO amigables
+RewriteRule ^servicios/?$ servicios.php [L,NC]
+
 # Bloquear acceso directo a carpetas sensibles
 RewriteRule ^(config|database|includes)/ - [F,L]
 

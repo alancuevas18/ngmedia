@@ -19,7 +19,7 @@ require __DIR__ . '/includes/header.php';
         <p class="hero-subtext">Ayudamos a marcas, instituciones y campañas políticas a comunicar mejor, ganar visibilidad y conectar con su audiencia en República Dominicana.</p>
         <div class="hero-actions">
             <a href="#contacto" class="btn btn-accent">Solicitar Cotización</a>
-            <a href="#servicios" class="btn btn-outline">Ver Servicios</a>
+            <a href="servicios.php" class="btn btn-outline">Ver Servicios</a>
         </div>
     </div>
 </section>
@@ -60,11 +60,11 @@ require __DIR__ . '/includes/header.php';
         </div>
         <div class="services-grid">
             <?php foreach ($services as $service): ?>
-            <div class="service-card reveal">
-                <div class="service-icon"><?= icon_svg($service['icon_slug']) ?></div>
-                <h3><?= e($service['title']) ?></h3>
-                <p><?= e($service['description']) ?></p>
-            </div>
+                <div class="service-card reveal">
+                    <div class="service-icon"><?= icon_svg($service['icon_slug']) ?></div>
+                    <h3><?= e($service['title']) ?></h3>
+                    <p><?= e($service['description']) ?></p>
+                </div>
             <?php endforeach; ?>
         </div>
     </div>
@@ -90,9 +90,9 @@ require __DIR__ . '/includes/header.php';
         </div>
         <div class="clients-grid reveal">
             <?php foreach ($clients as $client): ?>
-            <div class="client-logo">
-                <img src="<?= e($client['logo_path']) ?>" alt="<?= e($client['name']) ?>" loading="lazy">
-            </div>
+                <div class="client-logo">
+                    <img src="<?= e($client['logo_path']) ?>" alt="<?= e($client['name']) ?>" loading="lazy">
+                </div>
             <?php endforeach; ?>
         </div>
     </div>
@@ -112,13 +112,13 @@ require __DIR__ . '/includes/header.php';
         </div>
         <div class="portfolio-grid">
             <?php foreach ($portfolioItems as $item): ?>
-            <div class="portfolio-card reveal" data-category="<?= e($item['category']) ?>">
-                <img src="<?= e($item['image_path']) ?>" alt="<?= e($item['title']) ?>" loading="lazy">
-                <div class="portfolio-overlay">
-                    <span><?= e($item['category']) ?></span>
-                    <h4><?= e($item['title']) ?></h4>
+                <div class="portfolio-card reveal" data-category="<?= e($item['category']) ?>">
+                    <img src="<?= e($item['image_path']) ?>" alt="<?= e($item['title']) ?>" loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span><?= e($item['category']) ?></span>
+                        <h4><?= e($item['title']) ?></h4>
+                    </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         </div>
     </div>
