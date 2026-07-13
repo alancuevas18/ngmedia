@@ -197,7 +197,6 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<?php require __DIR__ . '/includes/footer.php'; ?>
 <!-- Portfolio Lightbox -->
 <div id="portfolio-lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-labelledby="lightbox-title" aria-modal="true">
     <div class="lightbox-backdrop" data-close></div>
@@ -216,3 +215,4 @@ require __DIR__ . '/includes/header.php';
         </div>
     </div>
 </div>
+<?php require __DIR__ . '/includes/footer.php'; ?>
