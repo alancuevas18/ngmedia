@@ -225,9 +225,6 @@
     var dragStartTime = 0;
     var scrollStartX = 0;
     var lastVelocity = 0;
-    var animationFrameId = null;
-    var isMouseOver = false;
-    var SCROLL_SPEED = 120; // pixels per frame (~60fps) - increased for visibility
 
     function getSlideScrollAmount() {
       var slide = carouselTrack.querySelector(".client-slide");
@@ -237,54 +234,26 @@
     }
 
     function scrollCarousel(direction) {
-      carouselTrack.scrollBy({
-        left: direction * getSlideScrollAmount(),
-        behavior: "smooth",
-      });
-      resetAutoplay();
-    }
+      var slideAmount = getSlideScrollAmount();
+      var scrollWidth = carouselTrack.scrollWidth;
+      var clientWidth = carouselTrack.clientWidth;
+      var currentScroll = carouselTrack.scrollLeft;
+      var maxScroll = scrollWidth - clientWidth;
+      var nextScroll = currentScroll + direction * slideAmount;
 
-    // Continuous smooth autoscroll loop
-    function autoScroll() {
-      if (!isDragging && !isMouseOver) {
-        var scrollWidth = carouselTrack.scrollWidth;
-        var clientWidth = carouselTrack.clientWidth;
-        
-        // Only scroll if there's content to scroll
-        if (scrollWidth > clientWidth) {
-          // Scroll forward smoothly
-          carouselTrack.scrollLeft += SCROLL_SPEED;
-          
-          // Loop back to start when reaching end (seamless loop)
-          if (carouselTrack.scrollLeft + clientWidth >= scrollWidth - 5) {
-            carouselTrack.scrollLeft = 0;
-          }
-        }
+      // If we're at the end and scrolling forward, loop to start
+      if (nextScroll >= maxScroll && direction > 0) {
+        carouselTrack.scrollTo({ left: 0, behavior: "smooth" });
       }
-      animationFrameId = requestAnimationFrame(autoScroll);
+      // If we're at the start and scrolling backward, loop to end
+      else if (nextScroll <= 0 && direction < 0) {
+        carouselTrack.scrollTo({ left: maxScroll, behavior: "smooth" });
+      }
+      // Normal scroll
+      else {
+        carouselTrack.scrollBy({ left: direction * slideAmount, behavior: "smooth" });
+      }
     }
-
-    function startAutoplay() {
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-      animationFrameId = requestAnimationFrame(autoScroll);
-    }
-
-    function stopAutoplay() {
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    }
-
-    function resetAutoplay() {
-      startAutoplay();
-    }
-
-    carouselTrack.addEventListener("mouseenter", function () {
-      isMouseOver = true;
-      stopAutoplay();
-    });
-    carouselTrack.addEventListener("mouseleave", function () {
-      isMouseOver = false;
-      startAutoplay();
-    });
 
     prevButton.addEventListener("click", function () {
       scrollCarousel(-1);
@@ -332,14 +301,10 @@
           behavior: "smooth",
         });
       }
-      resetAutoplay();
     }
 
     carouselTrack.addEventListener("pointerup", endDrag);
     carouselTrack.addEventListener("pointercancel", endDrag);
     carouselTrack.addEventListener("pointerleave", endDrag);
-
-    // Start autoplay on init
-    startAutoplay();
   }
 })();
