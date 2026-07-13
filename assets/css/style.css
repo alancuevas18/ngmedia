@@ -577,7 +577,8 @@ section { padding: 100px 0; }
     background: rgba(255,255,255,0.9); border: none; width: 44px; height: 44px; border-radius: 999px; font-size: 20px; cursor: pointer;
 }
 .lightbox-media { background: #000; min-height: 320px; display: grid; align-items: center; justify-items: center; }
-.lightbox-media img { width: 100%; height: 100%; object-fit: contain; max-height: 80vh; }
+.lightbox-media img { width: 100%; height: 100%; object-fit: contain; max-height: 80vh; transition: opacity 340ms cubic-bezier(.2,.9,.2,1), transform 340ms cubic-bezier(.2,.9,.2,1); opacity: 1; }
+.lightbox-media img.fading { opacity: 0; transform: scale(0.985); }
 .lightbox-body { padding: 28px; display: flex; flex-direction: column; gap: 12px; }
 .lightbox-body h3 { margin: 0 0 6px 0; }
 .lightbox-description { color: var(--color-text-light); margin: 0; }

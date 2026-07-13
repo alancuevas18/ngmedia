@@ -94,13 +94,35 @@
     var img = card.querySelector('.portfolio-media img');
     var title = card.querySelector('h4');
     var desc = card.querySelector('p');
-    lbImage.src = img ? img.src : '';
-    lbImage.alt = img ? (img.alt || '') : '';
     lbTitle.textContent = title ? title.textContent : '';
     lbDesc.textContent = desc ? desc.textContent : '';
+    // animate image change with crossfade
+    var src = img ? img.src : '';
+    var alt = img ? (img.alt || '') : '';
+    setLightboxImageSrc(src, alt);
     lightbox.setAttribute('aria-hidden', 'false');
     lbClose.focus();
     document.body.style.overflow = 'hidden';
+  }
+
+  // Smooth crossfade helper for lightbox image
+  function setLightboxImageSrc(src, alt) {
+    if (!lbImage) return;
+    // if same src, do nothing
+    if (lbImage.src === src) return;
+    lbImage.classList.add('fading');
+    lbImage.addEventListener('transitionend', function handler(e) {
+      if (e.propertyName !== 'opacity') return;
+      lbImage.removeEventListener('transitionend', handler);
+      lbImage.src = src;
+      lbImage.alt = alt || '';
+      // ensure next frame to trigger fade in
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          lbImage.classList.remove('fading');
+        });
+      });
+    }, { once: true });
   }
 
   function closeLightbox() {
@@ -115,14 +137,27 @@
     var visibles = visibleList();
     if (visibles.length === 0) return;
     currentIndex = (currentIndex - 1 + visibles.length) % visibles.length;
-    openLightbox(visibles[currentIndex]);
+    // update content and crossfade image
+    var card = visibles[currentIndex];
+    var title = card.querySelector('h4');
+    var desc = card.querySelector('p');
+    lbTitle.textContent = title ? title.textContent : '';
+    lbDesc.textContent = desc ? desc.textContent : '';
+    var img = card.querySelector('.portfolio-media img');
+    setLightboxImageSrc(img ? img.src : '', img ? img.alt || '' : '');
   }
 
   function showNext() {
     var visibles = visibleList();
     if (visibles.length === 0) return;
     currentIndex = (currentIndex + 1) % visibles.length;
-    openLightbox(visibles[currentIndex]);
+    var card = visibles[currentIndex];
+    var title = card.querySelector('h4');
+    var desc = card.querySelector('p');
+    lbTitle.textContent = title ? title.textContent : '';
+    lbDesc.textContent = desc ? desc.textContent : '';
+    var img = card.querySelector('.portfolio-media img');
+    setLightboxImageSrc(img ? img.src : '', img ? img.alt || '' : '');
   }
 
   portfolioList.forEach(function (card) {
