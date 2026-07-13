@@ -93,12 +93,18 @@ require __DIR__ . '/includes/header.php';
             <span class="eyebrow">Confían en Nosotros</span>
             <h2 id="clients-title">Clientes y organizaciones que confían en NG Media</h2>
         </div>
-        <div class="clients-grid reveal">
-            <?php foreach ($clients as $client): ?>
-                <div class="client-logo">
-                    <img src="<?= e($client['logo_path']) ?>" alt="<?= e($client['name']) ?>" loading="lazy">
-                </div>
-            <?php endforeach; ?>
+        <div class="clients-carousel reveal" aria-label="Carrusel de logos de clientes">
+            <button type="button" class="carousel-btn carousel-prev" aria-label="Cliente anterior">‹</button>
+            <div class="clients-track" tabindex="0">
+                <?php foreach ($clients as $client): ?>
+                    <div class="client-slide">
+                        <div class="client-logo">
+                            <img src="<?= e($client['logo_path']) ?>" alt="<?= e($client['name']) ?>" loading="lazy">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="carousel-btn carousel-next" aria-label="Siguiente cliente">›</button>
         </div>
     </div>
 </section>
@@ -117,13 +123,16 @@ require __DIR__ . '/includes/header.php';
         </div>
         <div class="portfolio-grid">
             <?php foreach ($portfolioItems as $item): ?>
-                <div class="portfolio-card reveal" data-category="<?= e($item['category']) ?>">
-                    <img src="<?= e($item['image_path']) ?>" alt="<?= e($item['title']) ?>" loading="lazy">
-                    <div class="portfolio-overlay">
-                        <span><?= e($item['category']) ?></span>
-                        <h4><?= e($item['title']) ?></h4>
+                <article class="portfolio-card reveal" data-category="<?= e($item['category']) ?>">
+                    <div class="portfolio-media">
+                        <img src="<?= e($item['image_path']) ?>" alt="<?= e($item['title']) ?>" loading="lazy">
                     </div>
-                </div>
+                    <div class="portfolio-card-body">
+                        <span class="portfolio-pill"><?= e($item['category']) ?></span>
+                        <h4><?= e($item['title']) ?></h4>
+                        <p><?= e($item['description']) ?></p>
+                    </div>
+                </article>
             <?php endforeach; ?>
         </div>
     </div>
