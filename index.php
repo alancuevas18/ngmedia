@@ -198,3 +198,21 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>
+<!-- Portfolio Lightbox -->
+<div id="portfolio-lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-labelledby="lightbox-title" aria-modal="true">
+    <div class="lightbox-backdrop" data-close></div>
+    <div class="lightbox-content" role="document">
+        <button class="lightbox-close" aria-label="Cerrar" type="button">×</button>
+        <div class="lightbox-media">
+            <img src="" alt="" loading="lazy">
+        </div>
+        <div class="lightbox-body">
+            <h3 id="lightbox-title"></h3>
+            <p class="lightbox-description"></p>
+            <div class="lightbox-actions">
+                <button class="lightbox-prev" aria-label="Anterior" type="button">‹</button>
+                <button class="lightbox-next" aria-label="Siguiente" type="button">›</button>
+            </div>
+        </div>
+    </div>
+</div>
