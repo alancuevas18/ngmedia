@@ -95,25 +95,33 @@
 
     function setLightboxImageSrc(src, alt) {
       if (!lbImage) return;
-      // if same src, do nothing
-      if (lbImage.src === src) return;
-      console.debug('lightbox: start crossfade to', src);
-      lbImage.classList.add("fading");
-      lbImage.addEventListener(
-        "transitionend",
-        function handler(e) {
-          if (e.propertyName !== "opacity") return;
-          lbImage.removeEventListener("transitionend", handler);
+      if (!src) {
+        lbImage.src = "";
+        lbImage.alt = "";
+        lbImage.dataset.currentSrc = "";
+        return;
+      }
+      // avoid redundant changes
+      if (lbImage.dataset.currentSrc === src) return;
+      console.log("lightbox: loading image", src);
+      var tmp = new Image();
+      tmp.onload = function () {
+        // fade out current image
+        lbImage.classList.add("fading");
+        setTimeout(function () {
           lbImage.src = src;
           lbImage.alt = alt || "";
+          lbImage.dataset.currentSrc = src;
+          // fade in
           requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              lbImage.classList.remove("fading");
-            });
+            lbImage.classList.remove("fading");
           });
-        },
-        { once: true },
-      );
+        }, 80);
+      };
+      tmp.onerror = function () {
+        console.log("lightbox: image failed to load", src);
+      };
+      tmp.src = src;
     }
 
     function openLightbox(card) {
@@ -172,7 +180,7 @@
     portfolioList.forEach(function (card) {
       card.addEventListener("click", function (e) {
         if (card.classList.contains("is-hidden")) return;
-        console.debug('lightbox: card clicked', card);
+        console.log("lightbox: card clicked");
         openLightbox(card);
       });
       card.addEventListener("keydown", function (e) {
@@ -187,12 +195,14 @@
 
     if (lbClose) lbClose.addEventListener("click", closeLightbox);
     if (lbBackdrop) lbBackdrop.addEventListener("click", closeLightbox);
-    if (lbPrev) lbPrev.addEventListener("click", function () {
-      showPrev();
-    });
-    if (lbNext) lbNext.addEventListener("click", function () {
-      showNext();
-    });
+    if (lbPrev)
+      lbPrev.addEventListener("click", function () {
+        showPrev();
+      });
+    if (lbNext)
+      lbNext.addEventListener("click", function () {
+        showNext();
+      });
 
     document.addEventListener("keydown", function (e) {
       if (!lightbox || lightbox.getAttribute("aria-hidden") === "true") return;
@@ -202,8 +212,8 @@
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPortfolioLightbox);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPortfolioLightbox);
   } else {
     initPortfolioLightbox();
   }
