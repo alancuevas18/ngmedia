@@ -29,6 +29,11 @@ require __DIR__ . '/includes/header.php';
         <p class="eyebrow">Contacto</p>
         <h1 id="contact-page-title">Contáctanos para tu próxima campaña de publicidad o marketing</h1>
         <p>Solicita una cotización para branding, publicidad, marketing político, comunicación institucional o estrategias digitales en República Dominicana.</p>
+        <div class="hero-pill-group">
+            <span class="hero-pill">Respuesta rápida</span>
+            <span class="hero-pill">Presupuestos claros</span>
+            <span class="hero-pill">Soporte dedicado</span>
+        </div>
         <div class="hero-actions">
             <a href="mailto:info@ngmedia.do" class="btn btn-accent">Escribir por Email</a>
             <a href="servicios.php" class="btn btn-outline">Ver Servicios</a>

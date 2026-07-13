@@ -16,6 +16,11 @@ require __DIR__ . '/includes/header.php';
         <p class="eyebrow">Agencia de Publicidad y Marketing</p>
         <h1 id="hero-title"><?= e(fetch_content($pdo, 'hero_title')) ?></h1>
         <p><?= e(fetch_content($pdo, 'hero_subtitle')) ?></p>
+        <div class="hero-pill-group">
+            <span class="hero-pill">Publicidad estratégica</span>
+            <span class="hero-pill">Marketing político y gubernamental</span>
+            <span class="hero-pill">Branding con impacto local</span>
+        </div>
         <p class="hero-subtext">Ayudamos a marcas, instituciones y campañas políticas a comunicar mejor, ganar visibilidad y conectar con su audiencia en República Dominicana.</p>
         <div class="hero-actions">
             <a href="contacto.php" class="btn btn-accent">Solicitar Cotización</a>

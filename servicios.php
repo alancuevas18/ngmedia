@@ -33,6 +33,11 @@ require __DIR__ . '/includes/header.php';
         <p class="eyebrow">Servicios</p>
         <h1 id="services-page-title">Servicios de publicidad, marketing y comunicación estratégica</h1>
         <p>Diseñamos estrategias de comunicación para marcas, organizaciones, instituciones y campañas políticas que necesitan crecer, diferenciarse y conectar mejor con su audiencia a través de publicidad, marketing político, branding y relaciones públicas.</p>
+        <div class="hero-pill-group">
+            <span class="hero-pill">Estrategia creativa</span>
+            <span class="hero-pill">Branding institucional</span>
+            <span class="hero-pill">Campañas digitales</span>
+        </div>
         <div class="hero-actions">
             <a href="contacto.php" class="btn btn-accent">Solicitar Cotización</a>
             <a href="index.php#portafolio" class="btn btn-outline">Ver Portafolio</a>
