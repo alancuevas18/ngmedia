@@ -1,0 +1,8 @@
+config/database.local.php
+uploads/portfolio/*
+!uploads/portfolio/.gitkeep
+uploads/clients/*
+!uploads/clients/.gitkeep
+uploads/hero/*
+!uploads/hero/.gitkeep
+.DS_Store

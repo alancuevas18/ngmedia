@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Bloquear acceso directo a carpetas sensibles
+RewriteRule ^(config|database|includes)/ - [F,L]
+
+# No listar directorios
+Options -Indexes
+
+# Bloquear ejecución de PHP dentro de uploads
+<IfModule mod_php.c>
+    <Directory "uploads">
+        php_flag engine off
+    </Directory>
+</IfModule>

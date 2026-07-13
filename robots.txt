@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ngmedia.do/sitemap.xml
