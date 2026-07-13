@@ -11,10 +11,12 @@ $formStatus = $_GET['status'] ?? null;
 require __DIR__ . '/includes/header.php';
 ?>
 
-<section class="hero" id="inicio">
+<section class="hero" id="inicio" aria-labelledby="hero-title">
     <div class="container hero-inner reveal">
-        <h1><?= e(fetch_content($pdo, 'hero_title')) ?></h1>
+        <p class="eyebrow">Agencia de Publicidad y Marketing</p>
+        <h1 id="hero-title"><?= e(fetch_content($pdo, 'hero_title')) ?></h1>
         <p><?= e(fetch_content($pdo, 'hero_subtitle')) ?></p>
+        <p class="hero-subtext">Ayudamos a marcas, instituciones y campañas políticas a comunicar mejor, ganar visibilidad y conectar con su audiencia en República Dominicana.</p>
         <div class="hero-actions">
             <a href="#contacto" class="btn btn-accent">Solicitar Cotización</a>
             <a href="#servicios" class="btn btn-outline">Ver Servicios</a>
@@ -22,13 +24,14 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<section id="nosotros">
+<section id="nosotros" aria-labelledby="about-title">
     <div class="container">
         <div class="about-grid">
             <div class="reveal">
                 <span class="eyebrow">Sobre Nosotros</span>
-                <h2>Construimos la mejor imagen para tu marca</h2>
+                <h2 id="about-title">Construimos la mejor imagen para tu marca, institución o campaña</h2>
                 <p><?= e(fetch_content($pdo, 'about_text')) ?></p>
+                <p>Somos especialistas en publicidad, marketing político, relaciones públicas y comunicación institucional para fortalecer la reputación y mejorar los resultados de cada proyecto.</p>
             </div>
             <div class="value-cards reveal">
                 <div class="value-card">
@@ -48,12 +51,12 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<section class="section-alt" id="servicios">
+<section class="section-alt" id="servicios" aria-labelledby="services-title">
     <div class="container">
         <div class="section-head reveal">
             <span class="eyebrow">Lo que hacemos</span>
-            <h2>Nuestros Servicios</h2>
-            <p>Soluciones integrales de comunicación para marcas, instituciones y campañas.</p>
+            <h2 id="services-title">Servicios de publicidad, marketing y comunicación estratégica</h2>
+            <p>Ofrecemos soluciones integrales de comunicación para marcas, instituciones, organizaciones y campañas políticas en República Dominicana.</p>
         </div>
         <div class="services-grid">
             <?php foreach ($services as $service): ?>
@@ -79,11 +82,11 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<section class="section-alt" id="clientes">
+<section class="section-alt" id="clientes" aria-labelledby="clients-title">
     <div class="container">
         <div class="section-head reveal">
             <span class="eyebrow">Confían en Nosotros</span>
-            <h2>Nuestros Clientes</h2>
+            <h2 id="clients-title">Clientes y organizaciones que confían en NG Media</h2>
         </div>
         <div class="clients-grid reveal">
             <?php foreach ($clients as $client): ?>
@@ -95,11 +98,11 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<section id="portafolio">
+<section id="portafolio" aria-labelledby="portfolio-title">
     <div class="container">
         <div class="section-head reveal">
             <span class="eyebrow">Nuestro Trabajo</span>
-            <h2>Portafolio de Proyectos</h2>
+            <h2 id="portfolio-title">Portafolio de proyectos de branding, comunicación y marketing</h2>
         </div>
         <div class="portfolio-filters reveal">
             <button class="filter-btn is-active" data-filter="all">Todos</button>
@@ -121,12 +124,12 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<section class="section-alt" id="contacto">
+<section class="section-alt" id="contacto" aria-labelledby="contact-title">
     <div class="container">
         <div class="section-head reveal">
             <span class="eyebrow">Hablemos</span>
-            <h2>Solicita tu Cotización</h2>
-            <p>Cuéntanos sobre tu proyecto y te contactaremos a la brevedad.</p>
+            <h2 id="contact-title">Solicita tu cotización para publicidad o marketing</h2>
+            <p>Cuéntanos sobre tu proyecto y te contactaremos a la brevedad para diseñar una estrategia de comunicación efectiva.</p>
         </div>
         <div class="contact-grid">
             <div class="reveal">
