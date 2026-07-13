@@ -227,7 +227,7 @@
     var lastVelocity = 0;
     var animationFrameId = null;
     var isMouseOver = false;
-    var SCROLL_SPEED = 40; // pixels per frame (~60fps = 2400px/sec)
+    var SCROLL_SPEED = 120; // pixels per frame (~60fps) - increased for visibility
 
     function getSlideScrollAmount() {
       var slide = carouselTrack.querySelector(".client-slide");
@@ -249,14 +249,16 @@
       if (!isDragging && !isMouseOver) {
         var scrollWidth = carouselTrack.scrollWidth;
         var clientWidth = carouselTrack.clientWidth;
-        var currentScroll = carouselTrack.scrollLeft;
         
-        // Scroll forward smoothly
-        carouselTrack.scrollLeft += SCROLL_SPEED;
-        
-        // Loop back to start when reaching end (seamless loop)
-        if (carouselTrack.scrollLeft + clientWidth >= scrollWidth - 5) {
-          carouselTrack.scrollLeft = 0;
+        // Only scroll if there's content to scroll
+        if (scrollWidth > clientWidth) {
+          // Scroll forward smoothly
+          carouselTrack.scrollLeft += SCROLL_SPEED;
+          
+          // Loop back to start when reaching end (seamless loop)
+          if (carouselTrack.scrollLeft + clientWidth >= scrollWidth - 5) {
+            carouselTrack.scrollLeft = 0;
+          }
         }
       }
       animationFrameId = requestAnimationFrame(autoScroll);
