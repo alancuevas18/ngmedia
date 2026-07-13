@@ -410,6 +410,7 @@ section { padding: 100px 0; }
     scroll-behavior: smooth;
     touch-action: pan-y;
     cursor: grab;
+    user-select: none;
 }
 .clients-track.is-dragging {
     cursor: grabbing;

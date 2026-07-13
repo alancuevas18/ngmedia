@@ -103,26 +103,29 @@
     });
 
     carouselTrack.addEventListener("pointerdown", function (event) {
+      if (event.button !== 0) return;
       isDragging = true;
       dragStartX = event.clientX;
       scrollStartX = carouselTrack.scrollLeft;
       carouselTrack.classList.add("is-dragging");
       carouselTrack.setPointerCapture(event.pointerId);
+      event.preventDefault();
     });
 
     carouselTrack.addEventListener("pointermove", function (event) {
       if (!isDragging) return;
+      event.preventDefault();
       var deltaX = event.clientX - dragStartX;
-      if (Math.abs(deltaX) > dragThreshold) {
-        carouselTrack.scrollLeft = scrollStartX - deltaX;
-      }
+      carouselTrack.scrollLeft = scrollStartX - deltaX;
     });
 
     function endDrag(event) {
       if (!isDragging) return;
       isDragging = false;
       carouselTrack.classList.remove("is-dragging");
-      carouselTrack.releasePointerCapture(event.pointerId);
+      if (event.pointerId != null) {
+        carouselTrack.releasePointerCapture(event.pointerId);
+      }
     }
 
     carouselTrack.addEventListener("pointerup", endDrag);
