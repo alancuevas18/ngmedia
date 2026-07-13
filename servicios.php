@@ -32,10 +32,10 @@ require __DIR__ . '/includes/header.php';
     <div class="container hero-inner reveal">
         <p class="eyebrow">Servicios</p>
         <h1 id="services-page-title">Servicios de publicidad, marketing y comunicación estratégica</h1>
-        <p>Diseñamos estrategias de comunicación para marcas, organizaciones, instituciones y campañas políticas que necesitan crecer, diferenciarse y conectar mejor con su audiencia.</p>
+        <p>Diseñamos estrategias de comunicación para marcas, organizaciones, instituciones y campañas políticas que necesitan crecer, diferenciarse y conectar mejor con su audiencia a través de publicidad, marketing político, branding y relaciones públicas.</p>
         <div class="hero-actions">
-            <a href="/#contacto" class="btn btn-accent">Solicitar Cotización</a>
-            <a href="/#portafolio" class="btn btn-outline">Ver Portafolio</a>
+            <a href="contacto.php" class="btn btn-accent">Solicitar Cotización</a>
+            <a href="index.php#portafolio" class="btn btn-outline">Ver Portafolio</a>
         </div>
     </div>
 </section>
@@ -65,20 +65,20 @@ require __DIR__ . '/includes/header.php';
             <div class="reveal">
                 <span class="eyebrow">Por qué elegirnos</span>
                 <h2 id="why-us-title">Estrategia, creatividad y ejecución alineadas con tus objetivos</h2>
-                <p>En NG Media combinamos análisis, creatividad y experiencia para construir mensajes claros y campañas que generan confianza y resultados.</p>
+                <p>En NG Media combinamos análisis, creatividad y experiencia para construir mensajes claros y campañas que generan confianza, posicionamiento y resultados medibles en República Dominicana.</p>
             </div>
             <div class="value-cards reveal">
                 <div class="value-card">
                     <h3>Planificación estratégica</h3>
-                    <p>Definimos objetivos, audiencias y mensajes para cada proyecto.</p>
+                    <p>Definimos objetivos, audiencias y mensajes para cada proyecto de publicidad digital, branding y marketing político.</p>
                 </div>
                 <div class="value-card">
                     <h3>Ejecutamos con precisión</h3>
-                    <p>Gestionamos campañas y contenidos con enfoque en calidad y cumplimiento.</p>
+                    <p>Gestionamos campañas de comunicación, contenidos y estrategias de posicionamiento con enfoque en calidad y cumplimiento.</p>
                 </div>
                 <div class="value-card">
                     <h3>Medición y mejora continua</h3>
-                    <p>Monitoreamos el impacto para ajustar la estrategia en cada etapa.</p>
+                    <p>Monitoreamos el impacto para ajustar la estrategia de marketing, relaciones públicas y publicidad en cada etapa.</p>
                 </div>
             </div>
         </div>

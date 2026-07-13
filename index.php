@@ -18,7 +18,7 @@ require __DIR__ . '/includes/header.php';
         <p><?= e(fetch_content($pdo, 'hero_subtitle')) ?></p>
         <p class="hero-subtext">Ayudamos a marcas, instituciones y campañas políticas a comunicar mejor, ganar visibilidad y conectar con su audiencia en República Dominicana.</p>
         <div class="hero-actions">
-            <a href="#contacto" class="btn btn-accent">Solicitar Cotización</a>
+            <a href="contacto.php" class="btn btn-accent">Solicitar Cotización</a>
             <a href="servicios.php" class="btn btn-outline">Ver Servicios</a>
         </div>
     </div>
