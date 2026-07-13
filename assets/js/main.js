@@ -103,7 +103,6 @@
       }
       // avoid redundant changes
       if (lbImage.dataset.currentSrc === src) return;
-      console.log("lightbox: loading image", src);
       var tmp = new Image();
       tmp.onload = function () {
         // fade out current image
@@ -118,9 +117,7 @@
           });
         }, 80);
       };
-      tmp.onerror = function () {
-        console.log("lightbox: image failed to load", src);
-      };
+      tmp.onerror = function () {};
       tmp.src = src;
     }
 
@@ -180,7 +177,6 @@
     portfolioList.forEach(function (card) {
       card.addEventListener("click", function (e) {
         if (card.classList.contains("is-hidden")) return;
-        console.log("lightbox: card clicked");
         openLightbox(card);
       });
       card.addEventListener("keydown", function (e) {
