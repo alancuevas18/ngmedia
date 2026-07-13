@@ -225,8 +225,9 @@
     var dragStartTime = 0;
     var scrollStartX = 0;
     var lastVelocity = 0;
-    var autoplayInterval = null;
-    var AUTOPLAY_DELAY = 4000; // 4 seconds
+    var animationFrameId = null;
+    var isMouseOver = false;
+    var SCROLL_SPEED = 40; // pixels per frame (~60fps = 2400px/sec)
 
     function getSlideScrollAmount() {
       var slide = carouselTrack.querySelector(".client-slide");
@@ -243,34 +244,37 @@
       resetAutoplay();
     }
 
-    function startAutoplay() {
-      stopAutoplay();
-      autoplayInterval = setInterval(function () {
-        if (!isDragging && !isMouseOver) {
-          carouselTrack.scrollBy({
-            left: getSlideScrollAmount(),
-            behavior: "smooth",
-          });
-          // loop back to start if at end
-          if (carouselTrack.scrollLeft + carouselTrack.clientWidth >= carouselTrack.scrollWidth - 10) {
-            setTimeout(function () {
-              carouselTrack.scrollTo({ left: 0, behavior: "auto" });
-            }, 600);
-          }
+    // Continuous smooth autoscroll loop
+    function autoScroll() {
+      if (!isDragging && !isMouseOver) {
+        var scrollWidth = carouselTrack.scrollWidth;
+        var clientWidth = carouselTrack.clientWidth;
+        var currentScroll = carouselTrack.scrollLeft;
+        
+        // Scroll forward smoothly
+        carouselTrack.scrollLeft += SCROLL_SPEED;
+        
+        // Loop back to start when reaching end (seamless loop)
+        if (carouselTrack.scrollLeft + clientWidth >= scrollWidth - 5) {
+          carouselTrack.scrollLeft = 0;
         }
-      }, AUTOPLAY_DELAY);
+      }
+      animationFrameId = requestAnimationFrame(autoScroll);
+    }
+
+    function startAutoplay() {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(autoScroll);
     }
 
     function stopAutoplay() {
-      if (autoplayInterval) clearInterval(autoplayInterval);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     }
 
     function resetAutoplay() {
-      stopAutoplay();
       startAutoplay();
     }
 
-    var isMouseOver = false;
     carouselTrack.addEventListener("mouseenter", function () {
       isMouseOver = true;
       stopAutoplay();
