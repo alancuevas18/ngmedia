@@ -69,124 +69,144 @@
     });
   });
 
-  // Portfolio lightbox modal
-  var lightbox = document.getElementById('portfolio-lightbox');
-  var lbBackdrop = lightbox && lightbox.querySelector('.lightbox-backdrop');
-  var lbContent = lightbox && lightbox.querySelector('.lightbox-content');
-  var lbImage = lightbox && lightbox.querySelector('.lightbox-media img');
-  var lbTitle = lightbox && lightbox.querySelector('#lightbox-title');
-  var lbDesc = lightbox && lightbox.querySelector('.lightbox-description');
-  var lbClose = lightbox && lightbox.querySelector('.lightbox-close');
-  var lbPrev = lightbox && lightbox.querySelector('.lightbox-prev');
-  var lbNext = lightbox && lightbox.querySelector('.lightbox-next');
-
-  var portfolioList = Array.prototype.slice.call(document.querySelectorAll('.portfolio-card'));
-  var visibleList = function () { return portfolioList.filter(function (c) { return !c.classList.contains('is-hidden'); }); };
-  var currentIndex = -1;
-  var lastFocused = null;
-
-  function openLightbox(card) {
+  // Portfolio lightbox modal - initialize after DOM ready for reliability
+  function initPortfolioLightbox() {
+    var lightbox = document.getElementById("portfolio-lightbox");
     if (!lightbox) return;
-    lastFocused = document.activeElement;
-    var visibles = visibleList();
-    currentIndex = visibles.indexOf(card);
-    if (currentIndex === -1) return;
-    var img = card.querySelector('.portfolio-media img');
-    var title = card.querySelector('h4');
-    var desc = card.querySelector('p');
-    lbTitle.textContent = title ? title.textContent : '';
-    lbDesc.textContent = desc ? desc.textContent : '';
-    // animate image change with crossfade
-    var src = img ? img.src : '';
-    var alt = img ? (img.alt || '') : '';
-    setLightboxImageSrc(src, alt);
-    lightbox.setAttribute('aria-hidden', 'false');
-    lbClose.focus();
-    document.body.style.overflow = 'hidden';
-  }
+    var lbBackdrop = lightbox.querySelector(".lightbox-backdrop");
+    var lbContent = lightbox.querySelector(".lightbox-content");
+    var lbImage = lightbox.querySelector(".lightbox-media img");
+    var lbTitle = lightbox.querySelector("#lightbox-title");
+    var lbDesc = lightbox.querySelector(".lightbox-description");
+    var lbClose = lightbox.querySelector(".lightbox-close");
+    var lbPrev = lightbox.querySelector(".lightbox-prev");
+    var lbNext = lightbox.querySelector(".lightbox-next");
 
-  // Smooth crossfade helper for lightbox image
-  function setLightboxImageSrc(src, alt) {
-    if (!lbImage) return;
-    // if same src, do nothing
-    if (lbImage.src === src) return;
-    lbImage.classList.add('fading');
-    lbImage.addEventListener('transitionend', function handler(e) {
-      if (e.propertyName !== 'opacity') return;
-      lbImage.removeEventListener('transitionend', handler);
-      lbImage.src = src;
-      lbImage.alt = alt || '';
-      // ensure next frame to trigger fade in
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          lbImage.classList.remove('fading');
-        });
+    var portfolioList = Array.prototype.slice.call(
+      document.querySelectorAll(".portfolio-card"),
+    );
+    var visibleList = function () {
+      return portfolioList.filter(function (c) {
+        return !c.classList.contains("is-hidden");
       });
-    }, { once: true });
-  }
+    };
+    var currentIndex = -1;
+    var lastFocused = null;
 
-  function closeLightbox() {
-    if (!lightbox) return;
-    lightbox.setAttribute('aria-hidden', 'true');
-    lbImage.src = '';
-    document.body.style.overflow = '';
-    if (lastFocused) lastFocused.focus();
-  }
+    function setLightboxImageSrc(src, alt) {
+      if (!lbImage) return;
+      // if same src, do nothing
+      if (lbImage.src === src) return;
+      console.debug('lightbox: start crossfade to', src);
+      lbImage.classList.add("fading");
+      lbImage.addEventListener(
+        "transitionend",
+        function handler(e) {
+          if (e.propertyName !== "opacity") return;
+          lbImage.removeEventListener("transitionend", handler);
+          lbImage.src = src;
+          lbImage.alt = alt || "";
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              lbImage.classList.remove("fading");
+            });
+          });
+        },
+        { once: true },
+      );
+    }
 
-  function showPrev() {
-    var visibles = visibleList();
-    if (visibles.length === 0) return;
-    currentIndex = (currentIndex - 1 + visibles.length) % visibles.length;
-    // update content and crossfade image
-    var card = visibles[currentIndex];
-    var title = card.querySelector('h4');
-    var desc = card.querySelector('p');
-    lbTitle.textContent = title ? title.textContent : '';
-    lbDesc.textContent = desc ? desc.textContent : '';
-    var img = card.querySelector('.portfolio-media img');
-    setLightboxImageSrc(img ? img.src : '', img ? img.alt || '' : '');
-  }
+    function openLightbox(card) {
+      if (!lightbox) return;
+      lastFocused = document.activeElement;
+      var visibles = visibleList();
+      currentIndex = visibles.indexOf(card);
+      if (currentIndex === -1) return;
+      var img = card.querySelector(".portfolio-media img");
+      var title = card.querySelector("h4");
+      var desc = card.querySelector("p");
+      lbTitle.textContent = title ? title.textContent : "";
+      lbDesc.textContent = desc ? desc.textContent : "";
+      var src = img ? img.src : "";
+      var alt = img ? img.alt || "" : "";
+      setLightboxImageSrc(src, alt);
+      lightbox.setAttribute("aria-hidden", "false");
+      if (lbClose) lbClose.focus();
+      document.body.style.overflow = "hidden";
+    }
 
-  function showNext() {
-    var visibles = visibleList();
-    if (visibles.length === 0) return;
-    currentIndex = (currentIndex + 1) % visibles.length;
-    var card = visibles[currentIndex];
-    var title = card.querySelector('h4');
-    var desc = card.querySelector('p');
-    lbTitle.textContent = title ? title.textContent : '';
-    lbDesc.textContent = desc ? desc.textContent : '';
-    var img = card.querySelector('.portfolio-media img');
-    setLightboxImageSrc(img ? img.src : '', img ? img.alt || '' : '');
-  }
+    function closeLightbox() {
+      if (!lightbox) return;
+      lightbox.setAttribute("aria-hidden", "true");
+      if (lbImage) lbImage.src = "";
+      document.body.style.overflow = "";
+      if (lastFocused) lastFocused.focus();
+    }
 
-  portfolioList.forEach(function (card) {
-    card.addEventListener('click', function (e) {
-      // prevent opening if card is hidden
-      if (card.classList.contains('is-hidden')) return;
-      openLightbox(card);
-    });
-    card.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
+    function showPrev() {
+      var visibles = visibleList();
+      if (visibles.length === 0) return;
+      currentIndex = (currentIndex - 1 + visibles.length) % visibles.length;
+      var card = visibles[currentIndex];
+      var title = card.querySelector("h4");
+      var desc = card.querySelector("p");
+      lbTitle.textContent = title ? title.textContent : "";
+      lbDesc.textContent = desc ? desc.textContent : "";
+      var img = card.querySelector(".portfolio-media img");
+      setLightboxImageSrc(img ? img.src : "", img ? img.alt || "" : "");
+    }
+
+    function showNext() {
+      var visibles = visibleList();
+      if (visibles.length === 0) return;
+      currentIndex = (currentIndex + 1) % visibles.length;
+      var card = visibles[currentIndex];
+      var title = card.querySelector("h4");
+      var desc = card.querySelector("p");
+      lbTitle.textContent = title ? title.textContent : "";
+      lbDesc.textContent = desc ? desc.textContent : "";
+      var img = card.querySelector(".portfolio-media img");
+      setLightboxImageSrc(img ? img.src : "", img ? img.alt || "" : "");
+    }
+
+    portfolioList.forEach(function (card) {
+      card.addEventListener("click", function (e) {
+        if (card.classList.contains("is-hidden")) return;
+        console.debug('lightbox: card clicked', card);
         openLightbox(card);
-      }
+      });
+      card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openLightbox(card);
+        }
+      });
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("role", "button");
     });
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('role', 'button');
-  });
 
-  if (lbClose) lbClose.addEventListener('click', closeLightbox);
-  if (lbBackdrop) lbBackdrop.addEventListener('click', closeLightbox);
-  if (lbPrev) lbPrev.addEventListener('click', function () { showPrev(); });
-  if (lbNext) lbNext.addEventListener('click', function () { showNext(); });
+    if (lbClose) lbClose.addEventListener("click", closeLightbox);
+    if (lbBackdrop) lbBackdrop.addEventListener("click", closeLightbox);
+    if (lbPrev) lbPrev.addEventListener("click", function () {
+      showPrev();
+    });
+    if (lbNext) lbNext.addEventListener("click", function () {
+      showNext();
+    });
 
-  document.addEventListener('keydown', function (e) {
-    if (!lightbox || lightbox.getAttribute('aria-hidden') === 'true') return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') showPrev();
-    if (e.key === 'ArrowRight') showNext();
-  });
+    document.addEventListener("keydown", function (e) {
+      if (!lightbox || lightbox.getAttribute("aria-hidden") === "true") return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") showPrev();
+      if (e.key === "ArrowRight") showNext();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPortfolioLightbox);
+  } else {
+    initPortfolioLightbox();
+  }
 
   // Client carousel buttons + drag interaction
   var carouselTrack = document.querySelector(".clients-track");
