@@ -408,6 +408,11 @@ section { padding: 100px 0; }
     padding-bottom: 12px;
     scrollbar-width: thin;
     scroll-behavior: smooth;
+    touch-action: pan-y;
+    cursor: grab;
+}
+.clients-track.is-dragging {
+    cursor: grabbing;
 }
 .clients-track::-webkit-scrollbar {
     height: 8px;
