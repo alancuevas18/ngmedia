@@ -7,6 +7,8 @@ $siteTitle = $pageTitle ?: 'NG Media';
 $siteDescription = $pageDescription ?: 'Agencia de publicidad, mercadeo, relaciones públicas y marketing político en República Dominicana.';
 $canonicalUrl = $canonicalUrl ?? 'https://ngmedia.do/';
 $ogImageUrl = $ogImageUrl ?? 'https://ngmedia.do/assets/img/logo-transparent.png';
+$additionalSchema = $additionalSchema ?? '';
+$googleSiteVerification = $googleSiteVerification ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,7 +20,8 @@ $ogImageUrl = $ogImageUrl ?? 'https://ngmedia.do/assets/img/logo-transparent.png
     <meta name="description" content="<?= e($siteDescription) ?>">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <meta name="theme-color" content="#0A2540">
-    <?php if ($googleSiteVerification !== ''): ?><meta name="google-site-verification" content="<?= e($googleSiteVerification) ?>">
+    <?php if ($googleSiteVerification !== ''): ?>
+        <meta name="google-site-verification" content="<?= e($googleSiteVerification) ?>">
     <?php endif; ?>
     <link rel="canonical" href="<?= e($canonicalUrl) ?>">
     <meta property="og:type" content="website">
@@ -51,9 +54,9 @@ $ogImageUrl = $ogImageUrl ?? 'https://ngmedia.do/assets/img/logo-transparent.png
         }
     </script>
     <?php if ($additionalSchema): ?>
-    <script type="application/ld+json">
-        <?= $additionalSchema ?>
-    </script>
+        <script type="application/ld+json">
+            <?= $additionalSchema ?>
+        </script>
     <?php endif; ?>
 </head>
 
